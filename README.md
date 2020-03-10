@@ -1,18 +1,51 @@
-Plusieurs modifications : 
- - sÃ©paration des sources (src/main/java) et des resources properties (src/main/resources)
- - crÃ©ation d'un rÃ©pertoire lib contenant log4j-1.2.17.jar
- - RÃ©cupÃ©ration des valeurs properties par la classe AppliProperty. L'idÃ©e est d'extraire cette 
- partie de la classe RecherchePlusMoins qui s'occupera uniquement des traitement mÃ©tier
- - CrÃ©ation des random et des saisies clavier dans la classe Utilitaire
- - remplacement de tous les System.out.println par logger.info (lire https://automationtalks.com/2017/06/04/why-log4j-is-better-than/)
- - 
+## Présentation du projet RecherchePlusMoins
+
+scapeGameOnline et un jeu qui consiste a trouver une combinaison à 4 chiffre (par default) en un certain nombre d'essai.la comparaisson ce fera avec = + ou - en fontion de la valeur comparer. il y a trois mode de jeu
+
+-challenger:vous devez deviner le code détenu par la machine.
+-Défenseur : L'ordinateur tente de deviner votre code.
+-Duel : Le premier qui trouve le code de l'autre a gagné.
+
+## Réalisation
+
+1. Environnement technique
+
+  - IDE :  [IntelliJ 2018.3](https://www.jetbrains.com/idea/).
+  - Langage de programmation : [Java 8/JDK 1.8.0_181](https://openclassrooms.com/fr/courses/26832-apprenez-a-programmer-en-java)
 
 
-CrÃ©ation du jar du projet : 
+2. Programmation - Concepts techniques
 
-https://www.jetbrains.com/help/idea/packaging-a-module-into-a-jar-file.html
-https://www.youtube.com/watch?v=3Xo6zSBgdgk
+  - algorithmie-enumeration-héritage-polymorphisme-switch-condition-propoerties-log4j
 
+## Livrable
 
-Exemple de fichier README.md Ã  complÃ©ter : README_EXEMPLE.md
-Documentation Markdown : https://www.markdownguide.org/basic-syntax/
+1. `recherchePlusMoins.jar`
+
+    À la fin de la programmation, j'ai généré le fichier `recherchePlusMoins.jar` qui représente l'exécutable de mon programme.
+C'est un archive qui contient :
+  - les fichiers `*.class` issus de la compilation des fichiers sources `*.java`,
+  - les bibliothèques `*.jar` que j'ai utilisées pour construire le programme (bibliothèques `log4j`).
+
+2. Exécution du fichier `recherchePlusMoins.jar`  
+
+    Pour exécuter le programme :
+
+    1. Exécution sans argument
+
+    ```
+    java -jar mastermind.jar
+    ```
+
+    2. Exécution avec arguments
+
+        - Pour exécuter le programme en mode "DEV", taper la commande :
+
+        ```
+        java -jar mastermind.jar DEV
+        ```
+
+        - Pour exécuter le programme en mode "PROD", taper la commande :
+
+        ```
+        java -jar mastermind.jar PROD
