@@ -128,14 +128,14 @@ public class RecherchePlusMoins {
 
     private void jouerRecherchePlusMoinsDuel() {
         logger.info("Vous jouez à RecherchePlusMoins - Duel vous allez affrontez l'ordinateur tour par tour pour trouver le code secret !");
-        int[] codeSecret = Utilitaire.genererNombreAleatoire(getNombreDeChiffre());
-        String codeSecretFormate = formatterTableau(codeSecret);
         int compteur = 0;
         Resultat resultatJoueur = new Resultat();
         Resultat resultatOrdinateur = new Resultat();
         int nbEssais = getNombreDessais();
         do {
             logger.info("-------------------------------");
+            int[] codeSecret = Utilitaire.genererNombreAleatoire(getNombreDeChiffre());
+            String codeSecretFormate = formatterTableau(codeSecret);
             formatterTableau(codeSecret);
             if (isModeDeveloppeur() == true) {
                 logger.info("Le code secret généré est " + codeSecretFormate);
@@ -171,8 +171,6 @@ public class RecherchePlusMoins {
         }
         if (!resultatJoueur.isTrouve() && !resultatOrdinateur.isTrouve() && compteur == nbEssais) {
             logger.info("Perdu !!! Le nombre d'essais a été atteint :" + compteur + " essais");
-            logger.info("Le code du joueur géneré à deviner était  " + formatterTableau(codeSecret));
-            logger.info("Le code de l'ordinateur saisie à deviner était  ");
             logEchec("duel", compteur);
         }
         ;
