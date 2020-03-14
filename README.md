@@ -1,12 +1,12 @@
-## PrÈsentation du projet RecherchePlusMoins
+## Pr√©sentation du projet RecherchePlusMoins
 
-scapeGameOnline et un jeu qui consiste a trouver une combinaison ‡ 4 chiffre (par default) en un certain nombre d'essai.la comparaisson ce fera avec = + ou - en fontion de la valeur comparer. il y a trois mode de jeu
+EscapeGameOnline et un jeu qui consiste √† trouver une combinaison √† 4 chiffres (par d√©faut) en un certain nombre d'essais.La comparaison se fera avec = + ou - en fonction de la valeur compar√©e. Il y a trois modes de jeu
 
--challenger:vous devez deviner le code dÈtenu par la machine.
--DÈfenseur : L'ordinateur tente de deviner votre code.
--Duel : Le premier qui trouve le code de l'autre a gagnÈ.
+-challenger : vous devez deviner le code d√©tenu par la machine.
+-D√©fenseur : L'ordinateur tente de deviner votre code.
+-Duel : Le premier qui trouve le code de l'autre a gagn√©.
 
-## RÈalisation
+## R√©alisation
 
 1. Environnement technique
 
@@ -16,36 +16,36 @@ scapeGameOnline et un jeu qui consiste a trouver une combinaison ‡ 4 chiffre (pa
 
 2. Programmation - Concepts techniques
 
-  - algorithmie-enumeration-hÈritage-polymorphisme-switch-condition-propoerties-log4j
+  - algorithmie-enumeration-h√©ritage-polymorphisme-switch-condition-propoerties-log4j
 
 ## Livrable
 
 1. `recherchePlusMoins.jar`
 
-    ¿ la fin de la programmation, j'ai gÈnÈrÈ le fichier `recherchePlusMoins.jar` qui reprÈsente l'exÈcutable de mon programme.
+    A la fin de la programmation, j'ai g√©n√©r√© le fichier `recherchePlusMoins.jar` qui repr√©sente l'ex√©cutable de mon programme.
 C'est un archive qui contient :
   - les fichiers `*.class` issus de la compilation des fichiers sources `*.java`,
-  - les bibliothËques `*.jar` que j'ai utilisÈes pour construire le programme (bibliothËques `log4j`).
+  - les biblioth√®ques `*.jar` que j'ai utilis√©es pour construire le programme (biblioth√®ques `log4j`).
 
-2. ExÈcution du fichier `recherchePlusMoins.jar`  
+2. Ex√©cution du fichier `recherchePlusMoins.jar`  
 
-    Pour exÈcuter le programme :
+    Pour ex√©cuter le programme :
 
-    1. ExÈcution sans argument
+    1. Ex√©cution sans argument
 
     ```
     java -jar mastermind.jar
     ```
 
-    2. ExÈcution avec arguments
+    2. Ex√©cution avec arguments
 
-        - Pour exÈcuter le programme en mode "DEV", taper la commande :
+        - Pour ex√©cuter le programme en mode "DEV", taper la commande :
 
         ```
         java -jar mastermind.jar DEV
         ```
 
-        - Pour exÈcuter le programme en mode "PROD", taper la commande :
+        - Pour ex√©cuter le programme en mode "PROD", taper la commande :
 
         ```
         java -jar mastermind.jar PROD
