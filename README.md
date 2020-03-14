@@ -1,10 +1,10 @@
 ## Présentation du projet RecherchePlusMoins
 
-EscapeGameOnline et un jeu qui consiste à trouver une combinaison à 4 chiffres (par défaut) en un certain nombre d'essais.La comparaison se fera avec = + ou - en fonction de la valeur comparée. Il y a trois modes de jeu
+EscapeGameOnline est un jeu qui consiste à trouver une combinaison à 4 chiffres (par défaut) en un certain nombre d'essais.La comparaison se fera avec = + ou - en fonction de la valeur comparée. Il y a trois modes de jeu
 
--challenger : vous devez deviner le code détenu par la machine.
--Défenseur : L'ordinateur tente de deviner votre code.
--Duel : Le premier qui trouve le code de l'autre a gagné.
+- Challenger : vous devez deviner le code détenu par la machine.
+- Défenseur : L'ordinateur tente de deviner votre code.
+- Duel : Le premier qui trouve le code de l'autre a gagné.
 
 ## Réalisation
 
@@ -16,7 +16,7 @@ EscapeGameOnline et un jeu qui consiste à trouver une combinaison à 4 chiffres
 
 2. Programmation - Concepts techniques
 
-  - algorithmie-enumeration-héritage-polymorphisme-switch-condition-propoerties-log4j
+  - algorithmique-enumeration-héritage-polymorphisme-switch-condition-properties-log4j
 
 ## Livrable
 
