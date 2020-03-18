@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import java.util.Arrays;
 
 import static com.ocr.game.utils.AppliProperty.*;
+import static com.ocr.game.utils.Utilitaire.*;
 
 public class RecherchePlusMoins {
 
@@ -108,9 +109,8 @@ public class RecherchePlusMoins {
         int nbEssais = getNombreDessais();
         do {
             logger.info("Essai n° " + (compteur + 1) + " /  " + nbEssais);
-            int[] saisieOrdinateur = Utilitaire.genererNombreAleatoire(getNombreDeChiffre());
-            resultat = comparaison(saisieOrdinateur, codeSecret);
-            logger.info("Proposition : " + formatterTableau(saisieOrdinateur) + " -> Réponse : " + formatterTableau(resultat.getTabPlusMoins()));
+            resultat =
+            logger.info("Proposition : "+formatterTableau()  + " -> Réponse : " + formatterTableau());
             compteur++;
 
         } while (!resultat.isTrouve() && compteur != nbEssais);
@@ -128,18 +128,23 @@ public class RecherchePlusMoins {
 
     private void jouerRecherchePlusMoinsDuel() {
         logger.info("Vous jouez à RecherchePlusMoins - Duel vous allez affrontez l'ordinateur tour par tour pour trouver le code secret !");
+        logger.info("veuillez saisir le code secret:");
+        int[] codeSecretJoueur = Utilitaire.saisieClavier(getNombreDeChiffre());
+        if (isModeDeveloppeur() == true) {
+            logger.info("Le code secret saisie par le joueur est " + formatterTableau(codeSecretJoueur));
+        }
+        int[] codeSecret = Utilitaire.genererNombreAleatoire(getNombreDeChiffre());
+        String codeSecretFormate = formatterTableau(codeSecret);
+        if (isModeDeveloppeur() == true) {
+            logger.info("Le code secret généré est " + codeSecretFormate);
+        }
         int compteur = 0;
         Resultat resultatJoueur = new Resultat();
         Resultat resultatOrdinateur = new Resultat();
         int nbEssais = getNombreDessais();
         do {
             logger.info("-------------------------------");
-            int[] codeSecret = Utilitaire.genererNombreAleatoire(getNombreDeChiffre());
-            String codeSecretFormate = formatterTableau(codeSecret);
             formatterTableau(codeSecret);
-            if (isModeDeveloppeur() == true) {
-                logger.info("Le code secret généré est " + codeSecretFormate);
-            }
             logger.info("Essai du joueur n° " + (compteur + 1) + " / " + nbEssais);
             int[] saisieClavier = Utilitaire.saisieClavier(getNombreDeChiffre());
             resultatJoueur = comparaison(saisieClavier, codeSecret);
@@ -149,11 +154,6 @@ public class RecherchePlusMoins {
                 break;
             }
             logger.info("-------------------------------");
-            logger.info("veuillez saisir le code secret:");
-            int[] codeSecretJoueur = Utilitaire.saisieClavier(getNombreDeChiffre());
-            if (isModeDeveloppeur() == true) {
-                logger.info("Le code secret saisie par le joueur est " + formatterTableau(codeSecretJoueur));
-            }
             logger.info("Essai de l'ordinateur n° " + (compteur + 1) + " / " + nbEssais);
             int[] saisieOrdinateur = Utilitaire.genererNombreAleatoire(getNombreDeChiffre());
             logger.info(formatterTableau(saisieOrdinateur));
@@ -173,7 +173,6 @@ public class RecherchePlusMoins {
             logger.info("Perdu !!! Le nombre d'essais a été atteint :" + compteur + " essais");
             logEchec("duel", compteur);
         }
-        ;
     }
 
     private void logSucces(String modeJeu, int nbEssai) {
@@ -194,6 +193,27 @@ public class RecherchePlusMoins {
                 return false;
             }
         }
+    }
+
+    private int[] recherche(String camparaisonJoueur,int[] saisie){
+        int[] proposition = new int[4];
+        if (camparaisonJoueur.isEmpty()){
+            return new int[]{5, 5, 5, 5};
+        }
+        for (int cpt =0;cpt < saisie.length - 1;cpt++){
+            int digit = saisie[cpt];
+            char comp = camparaisonJoueur.charAt(cpt);
+            if (comp == '-'){
+                proposition[cpt] = digit % 2;
+            }
+            if (comp =='+'){
+                proposition[cpt] = (digit + 1 + 9) % 2;
+            }
+            if (comp == '='){
+                proposition[cpt] = digit;
+            }
+        }
+        return proposition;
     }
     /**
      * Créer une methode qui compare la combinaison avec la saisie clavier de l'utilisateur
