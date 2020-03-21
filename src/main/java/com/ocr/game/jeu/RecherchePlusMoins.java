@@ -5,6 +5,7 @@ import com.ocr.game.utils.AppliProperty;
 import com.ocr.game.utils.Utilitaire;
 import org.apache.log4j.Logger;
 import java.util.Arrays;
+import java.util.Scanner;
 
 import static com.ocr.game.utils.AppliProperty.*;
 import static com.ocr.game.utils.Utilitaire.*;
@@ -97,38 +98,37 @@ public class RecherchePlusMoins {
     }
 
     private void jouerRecherchePlusMoinsDefenseur() {
-        //l'ordinateur vas généré un code aleatoire et verifier si le code aleatoire est egal a mon code secret
-        logger.info("Vous jouez à RecherchePlusMoins - Defenseur l'ordinateur va tentez de deviner le code que vous allez saisir !");
-        System.out.print("veuillez saisir le code secret :");
-        int[] codeSecret = Utilitaire.saisieClavier(getNombreDeChiffre());
+        Boolean cpuWin = false;
+        Scanner sc = new Scanner(System.in);
+        logger.info("veuillez saisir le code secret:");
+        String combi = sc.nextLine();
+        String codeSecret = combi;
         if (isModeDeveloppeur() == true) {
-            logger.info("Le code secret généré est :" + formatterTableau(codeSecret));
+            logger.info("Le code secret généré est :" + codeSecret);
         }
-        int compteur = 0;
-        Resultat resultat = new Resultat();
-        int nbEssais = getNombreDessais();
-        do {
-            logger.info("Essai n° " + (compteur + 1) + " /  " + nbEssais);
-            resultat =
-            logger.info("Proposition : "+formatterTableau()  + " -> Réponse : " + formatterTableau());
-            compteur++;
-
-        } while (!resultat.isTrouve() && compteur != nbEssais);
-        if (resultat.isTrouve()) {
-            logger.info("Tu as perdu l'ordinateur a trouver le code en " + compteur + " essais.");
-            logSucces("defenseur", compteur);
+        String compare = "";
+        int[] proposition = null;
+        for(int i=0; i< getNombreDessais(); i++){
+            logger.info("Essai : "+(i+1)+"/"+getNombreDessais());
+            proposition = recherche(proposition,compare,getNombreDeChiffre());
+            logger.info("Proposition : " +formatterTableau(proposition) + " -> reponse : ");
+            compare = sc.nextLine();
+            if (! compare.contains("+") && ! compare.contains("-")) {
+                cpuWin = true;
+                logger.info("Le CPU gagne !");
+                break;
+            }
         }
-        if (!resultat.isTrouve() && compteur == nbEssais) {
-            logger.info("Tu as gagner ! l'ordinateur n'a pas trouvé le code secret avant les " + compteur + " essais");
-            logger.info("Le code géneré à deviner était  " + formatterTableau(codeSecret));
-            logEchec("defenseur", compteur);
+        if (!cpuWin){
+            logger.info("Vous avez gagné !");
         }
-        ;
     }
+
 
     private void jouerRecherchePlusMoinsDuel() {
         logger.info("Vous jouez à RecherchePlusMoins - Duel vous allez affrontez l'ordinateur tour par tour pour trouver le code secret !");
         logger.info("veuillez saisir le code secret:");
+        String compare = "";
         int[] codeSecretJoueur = Utilitaire.saisieClavier(getNombreDeChiffre());
         if (isModeDeveloppeur() == true) {
             logger.info("Le code secret saisie par le joueur est " + formatterTableau(codeSecretJoueur));
@@ -155,17 +155,19 @@ public class RecherchePlusMoins {
             }
             logger.info("-------------------------------");
             logger.info("Essai de l'ordinateur n° " + (compteur + 1) + " / " + nbEssais);
-            int[] saisieOrdinateur = Utilitaire.genererNombreAleatoire(getNombreDeChiffre());
-            logger.info(formatterTableau(saisieOrdinateur));
-            resultatOrdinateur = comparaison(saisieOrdinateur, codeSecretJoueur);
-            logger.info("Proposition : " + formatterTableau(saisieOrdinateur) + " -> Réponse : " + formatterTableau(resultatOrdinateur.getTabPlusMoins()));
+            Scanner sc = new Scanner(System.in);
+            int[] proposition = null;
+            proposition = recherche(proposition,compare,getNombreDeChiffre());
+            System.out.println("Proposition : " + formatterTableau(proposition));
+            compare = sc.nextLine();
             compteur++;
+
         } while (!resultatJoueur.isTrouve() && !resultatOrdinateur.isTrouve() && compteur != nbEssais);
         if (resultatJoueur.isTrouve()) {
             logger.info("Bravo !!! Tu as battu l'ordinateur en " + compteur + " essais.");
             logSucces("duel", compteur);
         }
-        if (resultatOrdinateur.isTrouve()) {
+        if (! compare.contains("+")) {
             logger.info("Perdu !!! L'ordinateur a trouvé le code en " + compteur + " essais.");
             logEchec("duel", compteur);
         }
@@ -195,25 +197,47 @@ public class RecherchePlusMoins {
         }
     }
 
-    private int[] recherche(String camparaisonJoueur,int[] saisie){
-        int[] proposition = new int[4];
-        if (camparaisonJoueur.isEmpty()){
-            return new int[]{5, 5, 5, 5};
+    private static int[] recherche(int[] combi, String compare,int nbcominaisons) {
+        if("".equals(compare)){
+            int[] firstRes = new int[nbcominaisons];
+            for(int i=0; i < nbcominaisons; i++){
+                firstRes[i] = 5;
+            }
+            return(firstRes);
         }
-        for (int cpt =0;cpt < saisie.length - 1;cpt++){
-            int digit = saisie[cpt];
-            char comp = camparaisonJoueur.charAt(cpt);
-            if (comp == '-'){
-                proposition[cpt] = digit % 2;
-            }
-            if (comp =='+'){
-                proposition[cpt] = (digit + 1 + 9) % 2;
-            }
-            if (comp == '='){
-                proposition[cpt] = digit;
+        int [] res = new int[combi.length];
+        int borneMin = 1;
+        int borneMax = 9;
+        for(int cpt = 0; cpt<combi.length; cpt++) {
+            if(compare.charAt(cpt) == '+') {
+                if (combi[cpt] >= 5) {
+                    borneMin = combi[cpt] + 1;
+                    borneMax = 9;
+                    res[cpt] = (borneMax + borneMin) / 2;
+                }
+                else {
+                    borneMin = combi[cpt] + 1 ;
+                    borneMax = 4;
+                    res[cpt] = (borneMax + borneMin) / 2;
+                }
+            } else {
+                if (compare.charAt(cpt) == '-'){
+                    if (combi[cpt] <= 5) {
+                        borneMin = 1;
+                        borneMax = combi[cpt] -1;
+                        res[cpt] = (borneMax + borneMin) / 2;
+                    } else {
+                        borneMin = 6;
+                        borneMax = combi[cpt] -1  ;
+                        res[cpt] = (borneMax + borneMin) / 2;
+                    }
+                }
+                else {
+                    res[cpt] = combi[cpt];
+                }
             }
         }
-        return proposition;
+        return res;
     }
     /**
      * Créer une methode qui compare la combinaison avec la saisie clavier de l'utilisateur

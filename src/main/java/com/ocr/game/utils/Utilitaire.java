@@ -2,12 +2,14 @@ package com.ocr.game.utils;
 
 import org.apache.log4j.Logger;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Utilitaire {
 
     private static final Logger logger = Logger.getLogger(Utilitaire.class);
+
     /**
      * Ecrire une methode qui va générer un nombre aléatoire contenant 4 chiffres
      */
@@ -53,4 +55,7 @@ public class Utilitaire {
         return saisieJoueur;
     }
 
+    public static String comparaisonOrdi(int nbChiffre) {
+        return null;
+    }
 }
