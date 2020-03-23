@@ -129,6 +129,8 @@ public class RecherchePlusMoins {
         logger.info("Vous jouez à RecherchePlusMoins - Duel vous allez affrontez l'ordinateur tour par tour pour trouver le code secret !");
         logger.info("veuillez saisir le code secret:");
         String compare = "";
+        Boolean cpuWin = false;
+        boolean winJoueur = false;
         int[] codeSecretJoueur = Utilitaire.saisieClavier(getNombreDeChiffre());
         if (isModeDeveloppeur() == true) {
             logger.info("Le code secret saisie par le joueur est " + formatterTableau(codeSecretJoueur));
@@ -140,40 +142,38 @@ public class RecherchePlusMoins {
         }
         int compteur = 0;
         Resultat resultatJoueur = new Resultat();
-        Resultat resultatOrdinateur = new Resultat();
         int nbEssais = getNombreDessais();
-        do {
+        int[] proposition = null;
+        for(int i = 0; i < nbEssais ; i++){
             logger.info("-------------------------------");
             formatterTableau(codeSecret);
             logger.info("Essai du joueur n° " + (compteur + 1) + " / " + nbEssais);
             int[] saisieClavier = Utilitaire.saisieClavier(getNombreDeChiffre());
             resultatJoueur = comparaison(saisieClavier, codeSecret);
             logger.info("Proposition : " + formatterTableau(saisieClavier) + " -> Réponse : " + formatterTableau(resultatJoueur.getTabPlusMoins()));
-            if (resultatJoueur.isTrouve()) {
-                compteur++;
+            if (resultatJoueur.isTrouve() ){
+                winJoueur = true;
+                logger.info("Bravo !!! Tu as battu l'ordinateur en " + compteur + " essais.");
+                logSucces("duel", compteur);
                 break;
             }
             logger.info("-------------------------------");
             logger.info("Essai de l'ordinateur n° " + (compteur + 1) + " / " + nbEssais);
             Scanner sc = new Scanner(System.in);
-            int[] proposition = null;
             proposition = recherche(proposition,compare,getNombreDeChiffre());
             System.out.println("Proposition : " + formatterTableau(proposition));
             compare = sc.nextLine();
             compteur++;
-
-        } while (!resultatJoueur.isTrouve() && !resultatOrdinateur.isTrouve() && compteur != nbEssais);
-        if (resultatJoueur.isTrouve()) {
-            logger.info("Bravo !!! Tu as battu l'ordinateur en " + compteur + " essais.");
-            logSucces("duel", compteur);
-        }
-        if (! compare.contains("+")) {
-            logger.info("Perdu !!! L'ordinateur a trouvé le code en " + compteur + " essais.");
-            logEchec("duel", compteur);
-        }
-        if (!resultatJoueur.isTrouve() && !resultatOrdinateur.isTrouve() && compteur == nbEssais) {
-            logger.info("Perdu !!! Le nombre d'essais a été atteint :" + compteur + " essais");
-            logEchec("duel", compteur);
+            if (! compare.contains("+") && ! compare.contains("-")){
+                cpuWin = true;
+                logger.info("Perdu !!! L'ordinateur a trouvé le code en " + compteur + " essais.");
+                logEchec("duel", compteur);
+                break;
+            }
+            if (i == nbEssais){
+                logger.info("Perdu !!! Le nombre d'essais a été atteint :" + compteur + " essais");
+                logEchec("duel", compteur);
+            }
         }
     }
 
