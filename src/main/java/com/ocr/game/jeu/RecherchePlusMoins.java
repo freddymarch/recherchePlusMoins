@@ -1,14 +1,13 @@
 package com.ocr.game.jeu;
 
 import com.ocr.game.enums.ModeJeu;
-import com.ocr.game.utils.AppliProperty;
 import com.ocr.game.utils.Utilitaire;
 import org.apache.log4j.Logger;
+
 import java.util.Arrays;
 import java.util.Scanner;
 
 import static com.ocr.game.utils.AppliProperty.*;
-import static com.ocr.game.utils.Utilitaire.*;
 
 public class RecherchePlusMoins {
 
@@ -44,16 +43,8 @@ public class RecherchePlusMoins {
         }
     }
 
-    public int getChoixUtilisateur() {
-        return choixUtilisateur;
-    }
-
     public void setChoixUtilisateur(int choixUtilisateur) {
         this.choixUtilisateur = choixUtilisateur;
-    }
-
-    public String getParamModLancement() {
-        return paramModLancement;
     }
 
     public void setParamModLancement(String paramModLancement) {
@@ -113,7 +104,7 @@ public class RecherchePlusMoins {
             proposition = recherche(proposition,compare,getNombreDeChiffre());
             logger.info("Proposition : " +formatterTableau(proposition) + " -> reponse : ");
             compare = sc.nextLine();
-            if (! compare.contains("+") && ! compare.contains("-")) {
+            if (!compare.contains("+") && ! compare.contains("-")) {
                 cpuWin = true;
                 logger.info("Le CPU gagne !");
                 break;
@@ -164,7 +155,7 @@ public class RecherchePlusMoins {
             System.out.println("Proposition : " + formatterTableau(proposition));
             compare = sc.nextLine();
             compteur++;
-            if (! compare.contains("+") && ! compare.contains("-")){
+            if (!compare.contains("+") && !compare.contains("-")){
                 cpuWin = true;
                 logger.info("Perdu !!! L'ordinateur a trouvé le code en " + compteur + " essais.");
                 logEchec("duel", compteur);
@@ -197,7 +188,7 @@ public class RecherchePlusMoins {
         }
     }
 
-    private static int[] recherche(int[] combi, String compare,int nbcominaisons) {
+    private static int[] recherche(int[] combinaison, String compare,int nbcominaisons) {
         if("".equals(compare)){
             int[] firstRes = new int[nbcominaisons];
             for(int i=0; i < nbcominaisons; i++){
@@ -205,35 +196,35 @@ public class RecherchePlusMoins {
             }
             return(firstRes);
         }
-        int [] res = new int[combi.length];
+        int [] res = new int[combinaison.length];
         int borneMin = 1;
         int borneMax = 9;
-        for(int cpt = 0; cpt<combi.length; cpt++) {
+        for(int cpt = 0; cpt<combinaison.length; cpt++) {
             if(compare.charAt(cpt) == '+') {
-                if (combi[cpt] >= 5) {
-                    borneMin = combi[cpt] + 1;
+                if (combinaison[cpt] >= 5) {
+                    borneMin = combinaison[cpt] + 1;
                     borneMax = 9;
                     res[cpt] = (borneMax + borneMin) / 2;
                 }
                 else {
-                    borneMin = combi[cpt] + 1 ;
+                    borneMin = combinaison[cpt] + 1 ;
                     borneMax = 4;
                     res[cpt] = (borneMax + borneMin) / 2;
                 }
             } else {
                 if (compare.charAt(cpt) == '-'){
-                    if (combi[cpt] <= 5) {
+                    if (combinaison[cpt] <= 5) {
                         borneMin = 1;
-                        borneMax = combi[cpt] -1;
+                        borneMax = combinaison[cpt] -1;
                         res[cpt] = (borneMax + borneMin) / 2;
                     } else {
                         borneMin = 6;
-                        borneMax = combi[cpt] -1  ;
+                        borneMax = combinaison[cpt] -1  ;
                         res[cpt] = (borneMax + borneMin) / 2;
                     }
                 }
                 else {
-                    res[cpt] = combi[cpt];
+                    res[cpt] = combinaison[cpt];
                 }
             }
         }
