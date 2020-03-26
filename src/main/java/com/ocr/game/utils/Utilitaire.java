@@ -2,7 +2,6 @@ package com.ocr.game.utils;
 
 import org.apache.log4j.Logger;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -55,7 +54,13 @@ public class Utilitaire {
         return saisieJoueur;
     }
 
-    public static String comparaisonOrdi(int nbChiffre) {
-        return null;
+    public static char[] comparaisonOrdi(int nbChiffre) {
+        Scanner sc = new Scanner(System.in);
+        boolean saisieOK = false;
+        char []toCharArray = sc.nextLine().toCharArray();
+        if (toCharArray.length > nbChiffre){
+            logger.info("saisie supérieur à la combinaison");
+        }
+        return toCharArray;
     }
 }

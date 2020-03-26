@@ -101,8 +101,7 @@ public class RecherchePlusMoins {
         Boolean cpuWin = false;
         Scanner sc = new Scanner(System.in);
         logger.info("veuillez saisir le code secret:");
-        String combi = sc.nextLine();
-        String codeSecret = combi;
+        String codeSecret = sc.nextLine();
         if (isModeDeveloppeur() == true) {
             logger.info("Le code secret généré est :" + codeSecret);
         }
@@ -112,10 +111,10 @@ public class RecherchePlusMoins {
             logger.info("Essai : "+(i+1)+"/"+getNombreDessais());
             proposition = recherche(proposition,compare,getNombreDeChiffre());
             logger.info("Proposition : " +formatterTableau(proposition) + " -> reponse : ");
-            compare = sc.nextLine();
+            compare = String.valueOf(comparaisonOrdi(getNombreDeChiffre()));
             if (! compare.contains("+") && ! compare.contains("-")) {
                 cpuWin = true;
-                logger.info("Le CPU gagne !");
+                logger.info("L'ordinateur remporte la partie!");
                 break;
             }
         }
@@ -143,6 +142,7 @@ public class RecherchePlusMoins {
         int compteur = 0;
         Resultat resultatJoueur = new Resultat();
         int nbEssais = getNombreDessais();
+        nbEssais = nbEssais / 2 ;
         int[] proposition = null;
         for(int i = 0; i < nbEssais ; i++){
             logger.info("-------------------------------");
@@ -161,8 +161,8 @@ public class RecherchePlusMoins {
             logger.info("Essai de l'ordinateur n° " + (compteur + 1) + " / " + nbEssais);
             Scanner sc = new Scanner(System.in);
             proposition = recherche(proposition,compare,getNombreDeChiffre());
-            System.out.println("Proposition : " + formatterTableau(proposition));
-            compare = sc.nextLine();
+            System.out.println("Proposition : " + formatterTableau(proposition) + " -> Réponse :");
+            compare = String.valueOf(comparaisonOrdi(getNombreDeChiffre()));
             compteur++;
             if (! compare.contains("+") && ! compare.contains("-")){
                 cpuWin = true;
