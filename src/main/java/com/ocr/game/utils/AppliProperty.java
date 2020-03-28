@@ -24,7 +24,6 @@ public class AppliProperty {
         return value;
     }
 
-
     /**
      * Getter Nbr d'essai
      *

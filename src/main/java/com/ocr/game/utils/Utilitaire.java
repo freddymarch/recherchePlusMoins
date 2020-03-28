@@ -57,13 +57,33 @@ public class Utilitaire {
         return saisieJoueur;
     }
 
+
     public static char[] comparaisonOrdi(int nbChiffre) {
         Scanner sc = new Scanner(System.in);
-        boolean saisieOK = false;
-        char []comparJoueur = sc.nextLine().toCharArray();
-        if (comparJoueur.length > nbChiffre){
-            logger.info("saisie supérieur à la combinaison");
-        }
-        return comparJoueur;
+        boolean saisieOk = false;
+        char[] saisie = new char[nbChiffre];
+        do {
+            char[] comparJoueur = sc.nextLine().toCharArray();
+            if (comparJoueur.length != nbChiffre) {
+                logger.info("La saisie doit contenir uniquement " + nbChiffre + " caractères.");
+                saisieOk = false;
+            } else {
+                int i = 0;
+                while (i<comparJoueur.length) {
+                    if (comparJoueur[i] != '+' && comparJoueur[i] != '-' && comparJoueur[i] != '=') {
+                        logger.info("La saisie doit contenir uniquement les caractères -, +, =.");
+                        saisieOk = false;
+                        break;
+                    }else {
+                        i++;
+                    }
+                }
+                if (i == comparJoueur.length) {
+                    saisie = comparJoueur;
+                    saisieOk = true;
+                }
+            }
+        } while (!saisieOk);
+        return saisie;
     }
 }

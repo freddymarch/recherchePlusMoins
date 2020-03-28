@@ -87,12 +87,12 @@ public class RecherchePlusMoins {
         } while (!resultat.isTrouve() && compteur != nbEssais);
         if (resultat.isTrouve()) {
             logger.info("Bravo !!! Tu gagnes en " + compteur + " essais.");
-            logSucces("challenger", compteur);
+            logSucces(compteur);
         }
         if (!resultat.isTrouve() && compteur == nbEssais) {
             logger.info("Tu as perdu ! tu as atteint tes " + compteur + " essais");
             logger.info("Le code géneré à deviner était  " + codeSecretFormate);
-            logEchec("challenger", compteur);
+            logEchec(compteur);
         }
         ;
     }
@@ -102,13 +102,13 @@ public class RecherchePlusMoins {
         Scanner sc = new Scanner(System.in);
         logger.info("veuillez saisir le code secret:");
         String codeSecret = sc.nextLine();
-        if (isModeDeveloppeur() == true) {
+        if (isModeDeveloppeur()) {
             logger.info("Le code secret généré est :" + codeSecret);
         }
         String compare = "";
         int[] proposition = null;
-        for(int i=0; i< getNombreDessais(); i++){
-            logger.info("Essai : "+(i+1)+"/"+getNombreDessais());
+        for(int compteur=0; compteur< getNombreDessais(); compteur++){
+            logger.info("Essai : "+(compteur+1)+"/"+getNombreDessais());
             proposition = recherche(proposition,compare,getNombreDeChiffre());
             logger.info("Proposition : " +formatterTableau(proposition) + " -> reponse : ");
             compare = String.valueOf(comparaisonOrdi(getNombreDeChiffre()));
@@ -123,38 +123,32 @@ public class RecherchePlusMoins {
         }
     }
 
-
     private void jouerRecherchePlusMoinsDuel() {
         logger.info("Vous jouez à RecherchePlusMoins - Duel vous allez affrontez l'ordinateur tour par tour pour trouver le code secret !");
         logger.info("veuillez saisir le code secret:");
         String compare = "";
-        Boolean cpuWin = false;
-        boolean winJoueur = false;
         int[] codeSecretJoueur = Utilitaire.saisieClavier(getNombreDeChiffre());
-        if (isModeDeveloppeur() == true) {
-            logger.info("Le code secret saisie par le joueur est " + formatterTableau(codeSecretJoueur));
+        if (isModeDeveloppeur()) {
+            logger.info("Le code secret saisie par le joueur est : " + formatterTableau(codeSecretJoueur));
         }
         int[] codeSecret = Utilitaire.genererNombreAleatoire(getNombreDeChiffre());
         String codeSecretFormate = formatterTableau(codeSecret);
-        if (isModeDeveloppeur() == true) {
-            logger.info("Le code secret généré est " + codeSecretFormate);
+        if (isModeDeveloppeur()) {
+            logger.info("Le code secret généré par l'intelligence artificielle est : " + codeSecretFormate);
         }
         int compteur = 0;
-        Resultat resultatJoueur = new Resultat();
-        int nbEssais = getNombreDessais();
-        nbEssais = nbEssais / 2 ;
+        int nbEssais = getNombreDessais() / 2;
         int[] proposition = null;
         for(int i = 0; i < nbEssais ; i++){
             logger.info("-------------------------------");
             formatterTableau(codeSecret);
             logger.info("Essai du joueur n° " + (compteur + 1) + " / " + nbEssais);
             int[] saisieClavier = Utilitaire.saisieClavier(getNombreDeChiffre());
-            resultatJoueur = comparaison(saisieClavier, codeSecret);
+            Resultat resultatJoueur = comparaison(saisieClavier, codeSecret);
             logger.info("Proposition : " + formatterTableau(saisieClavier) + " -> Réponse : " + formatterTableau(resultatJoueur.getTabPlusMoins()));
             if (resultatJoueur.isTrouve() ){
-                winJoueur = true;
                 logger.info("Bravo !!! Tu as battu l'ordinateur en " + compteur + " essais.");
-                logSucces("duel", compteur);
+                logSucces(compteur);
                 break;
             }
             logger.info("-------------------------------");
@@ -165,24 +159,23 @@ public class RecherchePlusMoins {
             compare = String.valueOf(comparaisonOrdi(getNombreDeChiffre()));
             compteur++;
             if (! compare.contains("+") && ! compare.contains("-")){
-                cpuWin = true;
                 logger.info("Perdu !!! L'ordinateur a trouvé le code en " + compteur + " essais.");
-                logEchec("duel", compteur);
+                logEchec(compteur);
                 break;
             }
             if (i == nbEssais){
                 logger.info("Perdu !!! Le nombre d'essais a été atteint :" + compteur + " essais");
-                logEchec("duel", compteur);
+                logEchec(compteur);
             }
         }
     }
 
-    private void logSucces(String modeJeu, int nbEssai) {
-        logger.info("le joueur a gagné au jeu en mode " + modeJeu + " au bout de " + nbEssai + " essai(s)");
+    private void logSucces(int nbEssai) {
+        logger.info("le joueur a gagné au jeu en mode " + getModeJeu().getMessage() + " au bout de " + nbEssai + " essai(s)");
     }
 
-    private void logEchec(String modeJeu, int nbEssai) {
-        logger.info("le joueur a perdu au jeu en mode " + modeJeu + " au bout de " + nbEssai + " essai(s)");
+    private void logEchec(int nbEssai) {
+        logger.info("le joueur a perdu au jeu en mode " + getModeJeu().getMessage() + " au bout de " + nbEssai + " essai(s)");
     }
 
     private boolean isModeDeveloppeur(){
@@ -197,7 +190,7 @@ public class RecherchePlusMoins {
         }
     }
 
-    private static int[] recherche(int[] combi, String compare,int nbcominaisons) {
+    private static int[] recherche(int[] combinaison, String compare,int nbcominaisons) {
         if("".equals(compare)){
             int[] firstRes = new int[nbcominaisons];
             for(int i=0; i < nbcominaisons; i++){
@@ -205,35 +198,35 @@ public class RecherchePlusMoins {
             }
             return(firstRes);
         }
-        int [] res = new int[combi.length];
+        int [] res = new int[combinaison.length];
         int borneMin = 1;
         int borneMax = 9;
-        for(int cpt = 0; cpt<combi.length; cpt++) {
+        for(int cpt = 0; cpt<combinaison.length; cpt++) {
             if(compare.charAt(cpt) == '+') {
-                if (combi[cpt] >= 5) {
-                    borneMin = combi[cpt] + 1;
+                if (combinaison[cpt] >= 5) {
+                    borneMin = combinaison[cpt] + 1;
                     borneMax = 9;
                     res[cpt] = (borneMax + borneMin) / 2;
                 }
                 else {
-                    borneMin = combi[cpt] + 1 ;
+                    borneMin = combinaison[cpt] + 1 ;
                     borneMax = 4;
                     res[cpt] = (borneMax + borneMin) / 2;
                 }
             } else {
                 if (compare.charAt(cpt) == '-'){
-                    if (combi[cpt] <= 5) {
+                    if (combinaison[cpt] <= 5) {
                         borneMin = 1;
-                        borneMax = combi[cpt] -1;
+                        borneMax = combinaison[cpt] -1;
                         res[cpt] = (borneMax + borneMin) / 2;
                     } else {
                         borneMin = 6;
-                        borneMax = combi[cpt] -1  ;
+                        borneMax = combinaison[cpt] -1  ;
                         res[cpt] = (borneMax + borneMin) / 2;
                     }
                 }
                 else {
-                    res[cpt] = combi[cpt];
+                    res[cpt] = combinaison[cpt];
                 }
             }
         }
