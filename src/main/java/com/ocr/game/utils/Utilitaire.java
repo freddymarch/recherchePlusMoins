@@ -1,9 +1,12 @@
 package com.ocr.game.utils;
 
+import com.ocr.game.jeu.Resultat;
 import org.apache.log4j.Logger;
 
 import java.util.Random;
 import java.util.Scanner;
+
+import static com.ocr.game.utils.AppliProperty.getNombreDeChiffre;
 
 public class Utilitaire {
 
@@ -57,10 +60,10 @@ public class Utilitaire {
     public static char[] comparaisonOrdi(int nbChiffre) {
         Scanner sc = new Scanner(System.in);
         boolean saisieOK = false;
-        char []toCharArray = sc.nextLine().toCharArray();
-        if (toCharArray.length > nbChiffre){
+        char []comparJoueur = sc.nextLine().toCharArray();
+        if (comparJoueur.length > nbChiffre){
             logger.info("saisie supérieur à la combinaison");
         }
-        return toCharArray;
+        return comparJoueur;
     }
 }
